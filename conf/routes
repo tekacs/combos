@@ -1,0 +1,14 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET        /                                   controllers.IndexController.index
+GET        /topics                             controllers.TopicController.topics
+GET        /topics/:topic/facts                controllers.TopicController.facts(topic: String, after_id: Option[String] ?= None)
+POST       /topics/:topic/facts                controllers.TopicController.publishFact(topic: String)
+POST       /topics/:topic/subscriptions        controllers.SubscriptionController.newSubscription(topic: String)
+GET /topics/:topic/subscriptions/:sub_id/next  controllers.SubscriptionController.next(topic: String, sub_id: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET        /assets/*file                       controllers.Assets.at(path="/public", file)

@@ -1,0 +1,138 @@
+@(root: Call, topics: Call, facts: Call, subscriptions: Call, fromSub: Call)
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Combo Microservices</title>
+</head>
+<body>
+  <h2>Welcome to the combo microservices server!</h2>
+    <p>URLs for this server include:</p>
+    <table border="1">
+      <thead>
+        <tr><th>URL</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>@root.url</td><td>this page</td></tr>
+        <tr><td>@topics.url</td><td>topics in use</td></tr>
+        <tr><td>@facts.url</td>
+            <td>facts for given topic; POST to add a fact</td></tr>
+        <tr><td>@subscriptions.url</td>
+            <td>POST to create subscription to a topic</td></tr>
+        <tr><td>@fromSub.url</td>
+            <td>latest fact from subscription</td></tr>
+      </tbody>
+    </table>
+    <p>
+      See the API documentation at
+      <a href="http://docs.combo.apiary.io">http://docs.combo.apiary.io</a>
+      for further details.
+    </p>
+    <p>
+      <a href="https://github.com/douglassquirrel/combo">
+      Source code for this server</a> is available under an open-source
+      license.
+    </p>
+<!--
+  <h2>Chat example</h2>
+    <p>
+      Publish facts of the form <code>{"who": "joe", "says": "hello"}</code>
+      to the topic "chat" to see them below.
+    </p>
+    <div id="status" style="font-size:small"></div>
+    <div id="chat" style="max-height:100px;overflow:auto;"></div>
+-->
+  <h2>Firehose</h2>
+    <p>
+      Below are the last 10 facts published on this server. This table is
+      refreshed once a second.
+    </p>
+    <div id="firehose"></div>
+
+<script type='text/javascript'>
+  update_chat = function(fact_string) {
+    fact = JSON.parse(fact_string);
+    who = fact['who'] || 'error';
+    says = fact['says'] || 'error';
+    var chat_div = document.getElementById('chat');
+    chat_div.innerHTML += who + ': ' + says + '<br>';
+    chat_div.scrollTop = chat_div.scrollHeight;
+    console.log('chat: ' + fact_string);
+  }
+
+  chat_poll = function(retrieval_url) {
+    return
+    var status_div = document.getElementById('status');
+    status_div.innerHTML = 'Starting poll';
+    console.log('chat: starting poll for ' + retrieval_url);
+    var poll_xhr = new XMLHttpRequest();
+    poll_xhr.timeout = 11000;
+    poll_xhr.onreadystatechange = function() {
+      if (poll_xhr.readyState == 4) {
+        if (poll_xhr.status == 200) {
+          update_chat(poll_xhr.responseText);
+        } else {
+          console.log('chat: timed out');
+        }
+        status_div.innerHTML = 'Finished poll';
+        setTimeout(function() {chat_poll(retrieval_url)}, 1000);
+      }
+    }
+    poll_xhr.open('GET', retrieval_url, true);
+    poll_xhr.send(null);
+  }
+
+  var sub_xhr = new XMLHttpRequest();
+  sub_xhr.onreadystatechange  = function() {
+    if (sub_xhr.readyState == 4) {
+      retrieval_url = JSON.parse(sub_xhr.responseText)['retrieval_url'];
+      chat_poll(retrieval_url);
+    }
+  }
+  sub_xhr.open('POST', '@subscriptions.url'.replace('TOPIC', 'chat'), true);
+  sub_xhr.send(null);
+</script>
+
+<script type='text/javascript'>
+  update_firehose = function(facts) {
+    table = '<table border="1"><thead>'
+          + '<tr><th>ID</th><th>Topic</th><th>Time</th><th>Fact</th></tr>'
+          + '</thead><tbody>';
+    for (var i = 0; i < facts.length; i++) {
+      var fact = facts[i];
+      var id = fact['combo_id']; delete fact['combo_id'];
+      var topic = fact['combo_topic']; delete fact['combo_topic'];
+      var ts = fact['combo_timestamp']; delete fact['combo_timestamp'];
+      var timestamp = new Date(ts*1000).toUTCString();
+      var fact_string = JSON.stringify(fact).substring(0, 100);
+      table += '<tr><td>' + id + '</td><td>' + topic + '</td>'
+                 + '<td>' + timestamp + '</td>'
+                 + '<td>' + fact_string + '</td></tr>';
+    }
+    table += '</tbody></table>';
+    var fh_div = document.getElementById('firehose');
+    fh_div.innerHTML = table;
+  }
+
+  firehose_poll = function() {
+    var fh_xhr = new XMLHttpRequest();
+    fh_xhr.onreadystatechange  = function() {
+      if (fh_xhr.readyState == 4) {
+        update_firehose(JSON.parse(fh_xhr.responseText));
+        setTimeout(firehose_poll, 1000);
+      }
+    }
+    fh_xhr.ontimeout = function() {
+      console.log('firehose: timed out');
+      setTimeout(firehose_poll, 1000);
+    }
+    fh_xhr.timeout = 2000;
+    fh_xhr.open('GET', '@facts.url'.replace('TOPIC', '%23'), true);
+    fh_xhr.send(null);
+  }
+  firehose_poll();
+</script>
+</body>
+</html>
+
