@@ -1,4 +1,4 @@
-# combo-s
+# combos
 
 A quick 'spec'-matching re-implementation of Douglas Squirrel's 'combo', in Scala, using Akka.
 
