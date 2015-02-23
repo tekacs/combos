@@ -1,9 +1,9 @@
 package controllers
 
 import actors.TopicActor.{AllFacts, NewFact}
-import actors.{Fact, TopicActor}
+import actors.TopicActor
 import misc.AkkaInterop._
-import misc.Topic
+import misc.{Fact, Topic}
 import play.api.libs.concurrent.Akka
 import play.api.libs.json.{JsArray, JsObject, Json}
 import play.api.mvc._

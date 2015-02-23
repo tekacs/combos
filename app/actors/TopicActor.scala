@@ -1,7 +1,7 @@
 package actors
 
 import akka.actor._
-import misc.Topic
+import misc.{Fact, Topic}
 
 import scala.collection.{mutable, parallel}
 import scala.language.implicitConversions

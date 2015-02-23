@@ -2,6 +2,7 @@ package actors
 
 import actors.TopicActor.NewFact
 import akka.actor.{PoisonPill, ActorRef, ActorLogging, Actor}
+import misc.Fact
 
 import scala.collection.mutable
 import scala.concurrent.duration.FiniteDuration

@@ -1,8 +1,8 @@
 package controllers
 
-import actors.{Fact, SubscriptionActor, TopicActor}
+import actors.{SubscriptionActor, TopicActor}
 import misc.AkkaInterop._
-import misc.{Subscription, Topic}
+import misc.{Fact, Subscription, Topic}
 import play.api.libs.concurrent.Akka
 import play.api.mvc._
 

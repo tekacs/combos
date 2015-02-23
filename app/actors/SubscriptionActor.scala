@@ -3,7 +3,7 @@ package actors
 import akka.actor._
 import misc.AkkaInterop._
 import misc.Util.generateId
-import misc.{Subscription, Topic}
+import misc.{Fact, Subscription, Topic}
 
 import scala.collection.{mutable, parallel}
 import scala.concurrent.duration.FiniteDuration

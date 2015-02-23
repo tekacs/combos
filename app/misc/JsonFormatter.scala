@@ -1,8 +1,6 @@
 package misc
 
-import actors.Fact
 import controllers.routes
-import play.api.libs.json
 import play.api.libs.json.{JsNumber, JsObject, JsString}
 
 trait JsonFormatter[T] {

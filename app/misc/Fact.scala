@@ -1,7 +1,6 @@
-package actors
+package misc
 
 import misc.Util.generateId
-import misc.{JsonFormatter, RenderedJSON, Topic}
 import org.joda.time.DateTime
 import play.api.libs.json.JsObject
 
