@@ -2,6 +2,7 @@ package misc
 
 import actors.Fact
 import controllers.routes
+import play.api.libs.json
 import play.api.libs.json.{JsNumber, JsObject, JsString}
 
 trait JsonFormatter[T] {
@@ -22,15 +23,15 @@ object JsonFormatter {
   implicit object TopicFormatter extends JsonFormatter[Topic] {
     def json(topic: Topic) = JsObject(Seq(
       "topic_name" -> JsString(topic.name),
-      "subscription_url" -> JsString(routes.SubscriptionController.newSubscription(topic.name).absoluteURL()),
-      "facts_url" -> JsString(routes.TopicController.facts(topic.name, None).absoluteURL())
+      "subscription_url" -> JsString(routes.SubscriptionController.newSubscription(topic.name).url),
+      "facts_url" -> JsString(routes.TopicController.facts(topic.name, None).url)
     ))
   }
 
   implicit object SubscriptionFormatter extends JsonFormatter[Subscription] {
     def json(sub: Subscription) = JsObject(Seq(
       "subscription_id" -> JsString(sub.id),
-      "retrieval_url" -> JsString(routes.SubscriptionController.next(sub.topic.name, sub.id).absoluteURL())
+      "retrieval_url" -> JsString(routes.SubscriptionController.next(sub.topic.name, sub.id).url)
     ))
   }
 }
