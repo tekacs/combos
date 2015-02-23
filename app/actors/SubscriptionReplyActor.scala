@@ -1,7 +1,7 @@
 package actors
 
 import actors.TopicActor.NewFact
-import akka.actor.{PoisonPill, ActorRef, ActorLogging, Actor}
+import akka.actor.{Actor, ActorLogging, ActorRef, PoisonPill}
 import misc.Fact
 
 import scala.collection.mutable
@@ -10,8 +10,9 @@ import scala.util.Try
 
 class SubscriptionReplyActor(queue: mutable.Queue[Fact], replyTo: ActorRef, timeout: FiniteDuration)
   extends Actor with ActorLogging {
+  import actors.SubscriptionReplyActor._
+
   import scala.concurrent.ExecutionContext.Implicits.global
-  import SubscriptionReplyActor._
 
   def receive = {
     case Init =>

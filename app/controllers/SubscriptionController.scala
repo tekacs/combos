@@ -7,7 +7,7 @@ import play.api.libs.concurrent.Akka
 import play.api.mvc._
 
 import scala.concurrent.duration._
-import scala.util.{Try, Failure, Success}
+import scala.util.{Failure, Success, Try}
 
 object SubscriptionController extends Controller {
   import actors.SubscriptionActor._

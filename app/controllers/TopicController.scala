@@ -1,7 +1,7 @@
 package controllers
 
-import actors.TopicActor.{AllFacts, NewFact}
 import actors.TopicActor
+import actors.TopicActor.{AllFacts, NewFact}
 import misc.AkkaInterop._
 import misc.{Fact, Topic}
 import play.api.libs.concurrent.Akka
