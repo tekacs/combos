@@ -30,7 +30,7 @@
       for further details.
     </p>
     <p>
-      <a href="https://github.com/douglassquirrel/combo">
+      <a href="https://github.com/tekacs/combos">
       Source code for this server</a> is available under an open-source
       license.
     </p>
@@ -120,7 +120,7 @@
     fh_xhr.onreadystatechange  = function() {
       if (fh_xhr.readyState == 4) {
         update_firehose(JSON.parse(fh_xhr.responseText));
-        setTimeout(firehose_poll, 1000);
+        setTimeout(firehose_poll, 100);
       }
     }
     fh_xhr.ontimeout = function() {

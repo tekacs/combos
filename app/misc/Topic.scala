@@ -2,6 +2,7 @@ package misc
 
 import actors.TopicActor
 
+import scala.annotation.switch
 import scala.language.implicitConversions
 
 case class Topic(segments: String*) {
@@ -12,7 +13,10 @@ case class Topic(segments: String*) {
 }
 
 object Topic {
-  implicit def fromString(topic: String): Topic = Topic(topic.split('/'): _*)
+  implicit def fromString(topic: String): Topic = (topic: @switch) match {
+    case "#" | "%23" => wildcard
+    case _ => Topic(topic.split('/'): _*)
+  }
 
   def topics: Iterable[Topic] = TopicActor.topicMap.keys.seq
 

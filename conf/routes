@@ -5,7 +5,7 @@
 # Home page
 GET        /                                   controllers.IndexController.index
 GET        /topics                             controllers.TopicController.topics
-GET        /topics/:topic/facts                controllers.TopicController.facts(topic: String, after_id: Option[String] ?= None)
+GET        /topics/:topic/facts                controllers.TopicController.facts(topic: String, drop: Option[Int] ?= None, limit: Option[Int] ?= None, after_id: Option[String] ?= None)
 POST       /topics/:topic/facts                controllers.TopicController.publishFact(topic: String)
 POST       /topics/:topic/subscriptions        controllers.SubscriptionController.newSubscription(topic: String)
 GET /topics/:topic/subscriptions/:sub_id/next  controllers.SubscriptionController.next(topic: String, sub_id: String)

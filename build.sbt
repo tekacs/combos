@@ -11,7 +11,10 @@ libraryDependencies ++= Seq(
   anorm,
   cache,
   ws,
-  "be.cafeba" %% "play-cors" % "1.0"
+  "be.cafeba" %% "play-cors" % "1.0",
+  "net.ceedubs" %% "ficus" % "1.1.2",
+  "org.scalanlp" %% "breeze" % "0.10",
+  "org.scalanlp" %% "breeze-natives" % "0.10"
 )
 
 scalacOptions ++= Seq(

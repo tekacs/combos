@@ -15,9 +15,6 @@ A quick 'spec'-matching re-implementation of Douglas Squirrel's 'combo', in Scal
 * `/facts?after_id=`
 
   (this implementation uses unordered UUIDs in the name of maximising parallelism, but timestamp ordering can be used)
-* wildcard fact listing
-
-  (shortly forthcoming)
 * additional headers
 
   (CORS added, others shortly forthcoming)
